@@ -20,8 +20,7 @@ Having now computed the probability that any candidate cell has a mine, the algo
 
 A successful play on expert difficulty (24x24 with 99 mines) 
 
-![](src/images/MSAIMWin.gif)
-
+![](src/images/MSAIMwin.gif)
 
 An unsuccessful play
 
@@ -31,7 +30,7 @@ The results are very good, and although it cannot be guaranteed, it appears that
 
 Below is a good example of a situation in which the AI is forced to guess.
 
-![](src/images/failFrame.png)
+![](src/images/failFrame.PNG)
 
 ## Review and Next Steps
 In terms of algorithmic performance, this could certainly be better. Most calculations rely on nested for loop iterations across the 2D array of cells. A possible optimization would be to store open, nonzero cells and candidate cells in their own arrays and iterate across those arrays to compute probabilities, reducing time complexity of those methods from O(N^2) to O(N). The probability calculations also rely on each cell storing an array of its neighbors, over which it iterates. It may be advantageous to skip the use of a 2D array to store board values and to instead traverse the tree of neighboring cells, but I have not deeply considered this option due to its likely unnecessary complexity. 
