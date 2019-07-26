@@ -20,6 +20,8 @@ public class Board {
     private double numMines;
     private Cell[][] cells;
 
+    private boolean lost = false;
+
     private Map<Integer, Image> images = new HashMap<>();
 
     public Board(int width, int height, int numMines) {
@@ -101,6 +103,7 @@ public class Board {
         Cell cell = getCell(i, j);
         if(cell.hasMine()){
             cell.setIcon(new ImageIcon(images.get(MINE)));
+            lost = true;
             return false;
         }
         else {
@@ -134,12 +137,20 @@ public class Board {
         }
     }
 
-    private void resetBoard(){
-
+    public void resetBoard(){
+        for(Cell[] cells : getCells()){
+            for(Cell cell : cells){
+                cell.reset();
+                cell.setIcon(new ImageIcon(images.get(CLOSED)));
+            }
+        }
+        initNeighbors();
+        setMines();
+        computeNeighbors();
+        setLost(false);
     }
 
     public void openFullBoard(){
-        StringBuilder sb = new StringBuilder();
         for(Cell[] cells : getCells()){
             for(Cell cell : cells){
                 cell.setOpen(true);
@@ -202,12 +213,13 @@ public class Board {
 
     private class MSMouseListener implements MouseListener {
         public void mouseClicked(MouseEvent e) {
-            Cell cell = (Cell)e.getSource();
-            if (SwingUtilities.isRightMouseButton(e)) {
-                handleRightClick(cell);
-            }
-            else {
-                handleLeftClick(cell);
+            if(!lost) {
+                Cell cell = (Cell) e.getSource();
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    handleRightClick(cell);
+                } else {
+                    handleLeftClick(cell);
+                }
             }
         }
 
@@ -284,4 +296,11 @@ public class Board {
         this.numMines = numMines;
     }
 
+    public boolean isLost() {
+        return lost;
+    }
+
+    public void setLost(boolean lost) {
+        this.lost = lost;
+    }
 }

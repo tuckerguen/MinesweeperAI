@@ -1,5 +1,4 @@
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 public class Solver {
 
@@ -11,21 +10,16 @@ public class Solver {
         probabilityBoard = new double[board.getWidth()][board.getHeight()];
     }
 
-    public void play() throws InterruptedException{
-        int numMoves = 0;
+    public void play() {
         while(anyCellNotFlaggedAndNotOpen()){
             Cell choiceCell = computeLowestProbability(board);
             if(!choiceCell.isFlagged() && !board.setCellOpen(choiceCell.getI(), choiceCell.getJ())){
                 System.out.println("You Lose on square: " + choiceCell.getI() + ", " + choiceCell.getJ());
                 break;
             }
-            numMoves++;
             System.out.println("Chose: " + choiceCell.getI() + ", " + choiceCell.getJ());
             System.out.println(board.toString());
-            TimeUnit.MILLISECONDS.sleep(100);
-
         }
-        System.out.println(numMoves);
     }
 
     private boolean anyCellNotFlaggedAndNotOpen(){
@@ -34,19 +28,18 @@ public class Solver {
                 if(!cell.isFlagged() && !cell.isOpen()){
                     return true;
                 }
-
             }
         }
         return false;
     }
 
-    private Cell computeLowestProbability(Board board) throws InterruptedException{
+    private Cell computeLowestProbability(Board board) {
         configProbabilityBoard();
         doFlagging();
         return chooseCell();
     }
 
-    private void doFlagging() throws InterruptedException{
+    private void doFlagging() {
         for(Cell[] cells : board.getCells()){
             for(Cell cell : cells){
                 if(hasOpenNeighbor(cell) && !cell.isOpen()) {
@@ -54,7 +47,6 @@ public class Solver {
                     if(thisProbability == 1){
                         board.flag(cell);
                         configProbabilityBoard();
-                        TimeUnit.MILLISECONDS.sleep(100);
                     }
                 }
             }

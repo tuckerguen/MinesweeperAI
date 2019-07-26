@@ -19,6 +19,14 @@ public class Cell extends JButton {
         neighbors = new ArrayList<>();
     }
 
+    public void reset(){
+        setFlagged(false);
+        setMine(false);
+        setOpen(false);
+        setNumMinesAdjacent(0);
+        setNeighbors(new ArrayList<>());
+    }
+
     public void computeNeighbors(){
         for(Cell cell : neighbors){
             if(cell.hasMine()){

@@ -1,41 +1,40 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Minesweeper {
 
     private static final int WIDTH = 24;
     private static final int HEIGHT = 24;
     private static final int NUM_MINES = 99;
+    private static final boolean RUN_AI = true;
+    private static Board board = new Board(WIDTH, HEIGHT, NUM_MINES);
 
-
-    public static void main(String[] args) throws InterruptedException{
-        JFrame f = new JFrame();//creating instance of JFrame
-
-        Board board = new Board(WIDTH, HEIGHT, NUM_MINES);
-        for(Cell[] cells : board.getCells()){
-            for(Cell cell : cells){
-                f.add(cell);
-            }
+    public static void main(String[] args) {
+        initGui();
+        if(RUN_AI){
+            runAI();
         }
-        f.setSize(WIDTH * 20, HEIGHT * 20);
-        f.setResizable(false);
-        f.setLayout(new GridLayout(WIDTH, HEIGHT));
-        f.setVisible(true);
+    }
 
+    private static void runAI() {
         Solver solver = new Solver(board);
         solver.play();
         board.openFullBoard();
         System.out.println(board.printWithMines());
     }
 
+    private static void initGui() {
+        JFrame f = new JFrame();
+        f.setSize(WIDTH * 22, HEIGHT * 22);
+        f.setResizable(false);
+        f.setLayout(new GridLayout(WIDTH, HEIGHT));
 
+        for(Cell[] cells : board.getCells()){
+            for(Cell cell : cells){
+                f.add(cell);
+            }
+        }
 
-
-
+        f.setVisible(true);
+    }
 }
