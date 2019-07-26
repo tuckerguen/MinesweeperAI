@@ -22,6 +22,27 @@ public class Solver {
         }
     }
 
+
+    private Cell chooseCell(){
+        Cell choiceCell = board.getCell(ThreadLocalRandom.current().nextInt(0, board.getWidth()), ThreadLocalRandom.current().nextInt(0, board.getHeight()));
+
+        double lowestProbability = 1;
+
+        for(Cell[] cells : board.getCells()){
+            for(Cell cell : cells){
+                if(hasOpenNeighbor(cell) && !cell.isOpen()) {
+                    double thisProbability = computeProbabilityOnClosed(cell);
+                    if(thisProbability < lowestProbability && !cell.isFlagged()){
+                        lowestProbability = thisProbability;
+                        choiceCell = cell;
+                    }
+                }
+            }
+        }
+
+        return choiceCell;
+    }
+
     private boolean anyCellNotFlaggedAndNotOpen(){
         for(Cell[] cells : board.getCells()){
             for(Cell cell : cells) {
@@ -53,25 +74,6 @@ public class Solver {
         }
     }
 
-    private Cell chooseCell(){
-        Cell choiceCell = board.getCell(ThreadLocalRandom.current().nextInt(0, board.getWidth()), ThreadLocalRandom.current().nextInt(0, board.getHeight()));
-
-        double lowestProbability = 1;
-
-        for(Cell[] cells : board.getCells()){
-            for(Cell cell : cells){
-                if(hasOpenNeighbor(cell) && !cell.isOpen()) {
-                    double thisProbability = computeProbabilityOnClosed(cell);
-                    if(thisProbability < lowestProbability && !cell.isFlagged()){
-                        lowestProbability = thisProbability;
-                        choiceCell = cell;
-                    }
-                }
-            }
-        }
-
-        return choiceCell;
-    }
 
     private double computeProbabilityOnClosed(Cell cell){
         double probability = 0;
@@ -124,7 +126,6 @@ public class Solver {
                 }
             }
         }
-
         return ((double)(cell.getNumMinesAdjacent() - numFlagged) / (double)numUnopenedNeighbors);
     }
 

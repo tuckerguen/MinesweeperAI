@@ -32,11 +32,6 @@ public class Board {
         initBoard();
     }
 
-    /**
-     * Initialize cells and cells.neighbors
-     * Run once on startup, use resetBoard()
-     * for repeat games
-     */
     private void initBoard(){
         setCells(new Cell[width][height]);
         for(int i =0; i < width; i++){

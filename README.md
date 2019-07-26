@@ -11,6 +11,7 @@ The algorithm first goes over every open, nonzero cell and computes the probabil
 ![](src/images/computeProbabilityOnOpen.PNG)
 
 The next step is to look at all candidate cells and find which of its open neighbors assigns the highest probability of mine existence to its neighboring cells.
+
 ![](src/images/computeProbabilityOnClosed.PNG)
 
 Having now computed the probability that any candidate cell has a mine, the algorithm then flags all cells that have probability of 1, repeats the two above steps to account for the flagging, and then selects the candidate cell that has the lowest probability of containing a mine, typically 0. 
