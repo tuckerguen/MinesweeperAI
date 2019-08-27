@@ -1,6 +1,6 @@
 # Minesweeper AI
 
-This is a playable minesweeper application in Java. The primary purpose of this project was to try and design an AI that could always win Minesweeper at any difficulty.
+This is a playable minesweeper application in Java. The primary purpose of this project was to try and design an AI that could consistently win Minesweeper at any difficulty.
 
 ## Implementation
 
